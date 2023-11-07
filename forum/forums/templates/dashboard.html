@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+Hello, {{ request.user.username|default:'Guest' }}!
+
+<div>
+    {% if request.user.is_authenticated %}
+        <a href="{% url 'logout' %}">Logout</a>
+        <a href="{% url 'password_change' %}">Change password</a>
+    {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'register' %}">Register</a>
+    {% endif %}
+</div>
+<ul>
+    {% for category in categories %}
+        <li>{{ category.category_name }} -  {{ category.description}}
+            {% for topic in topics %}
+            <li>
+                <a>{{ topic.title }} - {{topic.content}}</a>
+            </li>
+                {% endfor %}
+            <form method="post" action="{% url 'dashboard' %}">
+                {% csrf_token %}
+                <input  name="category_id" value="{{ category.category_id }}">
+                {{ form.as_p }}
+                <button type="submit">Create Topic</button>
+            </form>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
