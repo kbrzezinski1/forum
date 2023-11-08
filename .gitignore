@@ -4,3 +4,4 @@
 /forum/users/migrations/__pycache__
 /forum/forums/__pycache__
 /forum/node_modules
+forum/.env
