@@ -3,3 +3,4 @@
 /forum/users/__pycache__
 /forum/users/migrations/__pycache__
 /forum/forums/__pycache__
+/forum/node_modules

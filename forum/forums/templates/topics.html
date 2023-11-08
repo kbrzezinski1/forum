@@ -1,18 +1,57 @@
-<h1>{{ topic.title }} Topics</h1>
-<ul>
-    {% for post in posts %}
+{% extends 'base.html' %}
 
-    <li>
-        <a>{{ post.content}} - {{post.user_id.username}} - {{post.created_at }}</a>
-    </li>
+{% block content %}
 
+<div class="mt-4">
+    <ul class="space-y-1">
+        <a class="block p-2 md:w-4/5 mx-auto rounded-lg border hover:bg-gray-100 hover:border-gray-200">
+            <p class="text-xl font-semibold">{{ topic.title }}</p>
+            <p class="text-gray-600 break-words">{{ topic.content }}</p>
+            <p class="text-blue-600 flex justify-end">{{ topic.user_id.username }} - {{topic.created_at}}</p>
+        </a>
+        {% for post in posts %}
+        <li>
+            <a class="block p-2 md:w-4/5 mx-auto rounded-lg border hover:bg-gray-100 hover:border-gray-200">
+                <p class="text-gray-600 break-words">{{ post.content }}</p>
+                <p class="text-blue-600 flex justify-end">{{ post.user_id.username }} - {{post.created_at}}</p>
+            </a>
+        </li>
         {% endfor %}
-    <form method="post" action="{% url 'topics' topic_id=topic.topic_id %}">
-        {% csrf_token %}
-        <input type = "hidden" value="{{ topic.topic_id }}">
-        {{ form.as_p }}
-        <button type="submit">Post</button>
-    </form>
-</ul>
+    </ul>
+</div>
+<div class="mt-4">
+    <ul class="pagination flex justify-end">
+        {% if posts.has_previous %}
+        <li><a href="?page={{ topics.previous_page_number }}" class="px-2 py-1 border rounded">Previous</a></li>
+        {% endif %}
+        {% for page_num in posts.paginator.page_range %}
+        <li>
+            <a href="?page={{ page_num }}"
+                class="px-2 py-1 border rounded{% if page_num == topics.number %} bg-blue-600 text-white{% else %} hover:bg-gray-100 hover:border-gray-200{% endif %}">
+                {{ page_num }}
+            </a>
+        </li>
+        {% endfor %}
+        {% if posts.has_next %}
+        <li><a href="?page={{ topics.next_page_number }}" class="px-2 py-1 border rounded">Next</a></li>
+        {% endif %}
+    </ul>
+</div>
 
-<a href="{% url 'dashboard' %}">Back to dashboard</a>
+
+{% if request.user.is_authenticated %}
+<div class="flex flex-col">
+<form method="post" action="{% url 'topics' topic_id=topic.topic_id %}"
+    class="block p-2 md:w-4/5 mx-auto rounded-lg border hover:bg-gray-100 hover:border-gray-200">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="mt-auto flex justify-end">
+        <button type="submit" class="bg-blue-600 hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded">
+            Post
+        </button>
+    </div>
+
+</form>
+</div>
+{% endif %}
+{% endblock %}

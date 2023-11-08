@@ -1,5 +1,15 @@
+{% load static %}
 
-<h1>Super Forum</h1>
+<head>
+    <title>Super Forum</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'src/styles.css' %}" rel="stylesheet">
+</head>
 
+<body>
+    {% include 'navbar.html' %}
+
+</body>
 {% block content %}
 {% endblock %}

@@ -1,18 +1,54 @@
-<title>{{ category.category_name }} Topics</title>
-<h1>{{ category.category_name }} Topics</h1>
-<ul>
-    {% for topic in topics %}
-    {% if topic.category_id == category %}
-    <li>
-        <a href="{% url 'topics' topic_id=topic.topic_id %}">{{ topic.title }} - {{topic.content}} - {{topic.user_id.username}}</a>
-    </li>
-    {% endif %}
+{% extends 'base.html' %}
+
+{% block content %}
+<title>{{ category.category_name }} yopics</title>
+<h1 class="text-3xl font-semibold mb-4 flex justify-center">{{ category.category_name }} topics</h1>
+<div class="mt-4">
+    <ul class="space-y-1">
+        {% for topic in topics %}
+        <li>
+            <a href="{% url 'topics' topic_id=topic.topic_id %}"
+                class="block p-2 md:w-4/5 mx-auto rounded-lg border hover:bg-gray-100 hover:border-gray-200">
+                <div class="text-xl font-semibold">{{ topic.title }}</div>
+                <p class="text-gray-600 break-words">{{ topic.content }}</p>
+                <p class="text-gray-600">{{ topic.post_count }}</p>
+                <p class="text-blue-600 flex justify-end">{{ topic.user_id.username }} - {{topic.latest_post_date}}</p>
+            </a>
+        </li>
         {% endfor %}
-    <form method="post" action="{% url 'category_topics' category_id=category.category_id %}">
-        {% csrf_token %}
-        <input type = "hidden" value="{{ category.category_id }}">
-        {{ form.as_p }}
-        <button type="submit">Create Topic</button>
-    </form>
-</ul>
-<a href="{% url 'dashboard' %}">Back to dashboard</a>
+    </ul>
+</div>
+
+
+<div class="mt-4">
+    <ul class="pagination flex justify-end">
+        {% if topics.has_previous %}
+        <li><a href="?page={{ topics.previous_page_number }}" class="px-2 py-1 border rounded">Previous</a></li>
+        {% endif %}
+        {% for page_num in topics.paginator.page_range %}
+        <li>
+            <a href="?page={{ page_num }}"
+                class="px-2 py-1 border rounded{% if page_num == topics.number %} bg-blue-600 text-white{% else %} hover:bg-gray-100 hover:border-gray-200{% endif %}">
+                {{ page_num }}
+            </a>
+        </li>
+        {% endfor %}
+        {% if topics.has_next %}
+        <li><a href="?page={{ topics.next_page_number }}" class="px-2 py-1 border rounded">Next</a></li>
+        {% endif %}
+    </ul>
+</div>
+
+
+{% if request.user.is_authenticated %}
+<form method="post" action="{% url 'category_topics' category_id=category.category_id %}"
+    class="block p-2 md:w-4/5 mx-auto rounded-lg border hover:bg-gray-100 hover:border-gray-200">
+    {% csrf_token %}
+    <input type="hidden" name="category_id" value="{{ category.category_id }}">
+    {{ form.as_p }}
+    <button type="submit" class="bg-blue-600 hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded w-full">
+        Create Topic
+    </button>
+</form>
+{% endif %}
+{% endblock %}
