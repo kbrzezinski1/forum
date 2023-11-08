@@ -14,18 +14,8 @@ Hello, {{ request.user.username|default:'Guest' }}!
 </div>
 <ul>
     {% for category in categories %}
-        <li>{{ category.category_name }} -  {{ category.description}}
-            {% for topic in topics %}
-            <li>
-                <a>{{ topic.title }} - {{topic.content}}</a>
-            </li>
-                {% endfor %}
-            <form method="post" action="{% url 'dashboard' %}">
-                {% csrf_token %}
-                <input  name="category_id" value="{{ category.category_id }}">
-                {{ form.as_p }}
-                <button type="submit">Create Topic</button>
-            </form>
+        <li><a href="{% url 'category_topics' category_id=category.category_id %}">{{ category.category_name }}</a>
+           
         </li>
     {% endfor %}
 </ul>

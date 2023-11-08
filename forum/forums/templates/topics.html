@@ -1,0 +1,18 @@
+<h1>{{ topic.title }} Topics</h1>
+<ul>
+    {% for post in posts %}
+
+    <li>
+        <a>{{ post.content}} - {{post.user_id.username}} - {{post.created_at }}</a>
+    </li>
+
+        {% endfor %}
+    <form method="post" action="{% url 'topics' topic_id=topic.topic_id %}">
+        {% csrf_token %}
+        <input type = "hidden" value="{{ topic.topic_id }}">
+        {{ form.as_p }}
+        <button type="submit">Post</button>
+    </form>
+</ul>
+
+<a href="{% url 'dashboard' %}">Back to dashboard</a>

@@ -1,6 +1,9 @@
 from django.urls import include, path
-from forums.views import dashboard
+from . import views
 
 urlpatterns = [
-    path("", dashboard, name="dashboard"),
+    path("", views.dashboard, name="dashboard"),
+    path('category/<int:category_id>/', views.category_topics, name='category_topics'),
+    path('topic/<int:topic_id>/', views.topics, name='topics'),
+
 ]

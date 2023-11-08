@@ -27,7 +27,8 @@ class Post(models.Model):
     user_id = models.ForeignKey(MyUser, on_delete=models.SET_NULL, null=True)
     topic_id = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True)
     content = models.CharField(max_length=255)
-    created_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.content
