@@ -10,6 +10,9 @@ class Category(models.Model):
     def __str__(self):
         return self.category_name
 
+    def topic_count(self):
+        return self.topic_set.count()
+
 class Topic(models.Model):
     topic_id = models.AutoField(primary_key=True)
     user_id = models.ForeignKey(MyUser, on_delete=models.SET_NULL, null=True)

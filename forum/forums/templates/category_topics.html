@@ -8,8 +8,8 @@
         {% for topic in topics %}
         <li>
             <a href="{% url 'topics' topic_id=topic.topic_id %}"
-                class="block p-2 md:w-4/5 mx-auto rounded-lg border hover:bg-gray-100 hover:border-gray-200">
-                <div class="text-xl font-semibold">{{ topic.title }}</div>
+                class="bg-white block p-2 md:w-4/5 mx-auto rounded-lg border hover:bg-gray-100 hover:border-gray-200">
+                <div class=" text-xl font-semibold">{{ topic.title }}</div>
                 <p class="text-gray-600 break-words">{{ topic.content }}</p>
                 <p class="text-gray-600">{{ topic.post_count }}</p>
                 <p class="text-blue-600 flex justify-end">{{ topic.user_id.username }} - {{topic.latest_post_date}}</p>

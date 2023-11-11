@@ -5,3 +5,4 @@
 /forum/forums/__pycache__
 /forum/node_modules
 forum/.env
+Caddyfile

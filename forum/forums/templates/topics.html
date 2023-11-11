@@ -21,9 +21,11 @@
 </div>
 <div class="mt-4">
     <ul class="pagination flex justify-end">
+        {% if posts.paginator.num_pages > 1 %}
         {% if posts.has_previous %}
-        <li><a href="?page={{ topics.previous_page_number }}" class="px-2 py-1 border rounded">Previous</a></li>
+        <li><a href="?page={{ posts.previous_page_number }}" class="px-2 py-1 border rounded">Previous</a></li>
         {% endif %}
+
         {% for page_num in posts.paginator.page_range %}
         <li>
             <a href="?page={{ page_num }}"
@@ -33,25 +35,27 @@
         </li>
         {% endfor %}
         {% if posts.has_next %}
-        <li><a href="?page={{ topics.next_page_number }}" class="px-2 py-1 border rounded">Next</a></li>
+        <li><a href="?page={{ posts.next_page_number }}" class="px-2 py-1 border rounded">Next</a></li>
         {% endif %}
+        {% endif %}
+
     </ul>
 </div>
 
 
 {% if request.user.is_authenticated %}
 <div class="flex flex-col">
-<form method="post" action="{% url 'topics' topic_id=topic.topic_id %}"
-    class="block p-2 md:w-4/5 mx-auto rounded-lg border hover:bg-gray-100 hover:border-gray-200">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <div class="mt-auto flex justify-end">
-        <button type="submit" class="bg-blue-600 hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded">
-            Post
-        </button>
-    </div>
+    <form method="post" action="{% url 'topics' topic_id=topic.topic_id %}"
+        class="block p-2 md:w-4/5 mx-auto rounded-lg border hover:bg-gray-100 hover:border-gray-200">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="mt-auto flex justify-end">
+            <button type="submit" class="bg-blue-600 hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded">
+                Post
+            </button>
+        </div>
 
-</form>
+    </form>
 </div>
 {% endif %}
 {% endblock %}

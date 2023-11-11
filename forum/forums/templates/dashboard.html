@@ -6,10 +6,11 @@
     {% for category in categories %}
     <li>
         <a href="{% url 'category_topics' category_id=category.category_id %}"
-            class="text-blue-600 hover:text-blue-800">
-            <div class="bg-white p-4 rounded-lg shadow-md">
+        class="block p-2 md:w-4/5 mx-auto rounded-lg border hover:bg-gray-100 hover:border-gray-200">
+        <div class="bg-white p-4 rounded-lg shadow-md">
                 <div class="text-xl font-semibold">{{ category.category_name }}</div>
                 <p class="text-gray-600">{{ category.description }}</p>
+                <p class="text-gray-600">{{ category.topic_count }}</p>
             </div>
         </a>
     </li>
