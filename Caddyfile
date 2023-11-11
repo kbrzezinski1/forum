@@ -1,5 +1,0 @@
-
-
-app1.bksite.pl {
-	reverse_proxy localhost:8000
-}
