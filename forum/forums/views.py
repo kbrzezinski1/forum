@@ -6,6 +6,7 @@ from django.db.models import F, Max
 from django.db.models.functions import Coalesce
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
 CONST_POST_PER_PAGE = 20
 CONST_TOPIC_PER_PAGE = 10
 def dashboard(request):
@@ -57,5 +58,22 @@ def topics(request, topic_id):
             return HttpResponseRedirect(last_page_url)
     else:
         form = PostForm()   
-         
+
     return render(request, 'topics.html', {'topic': topic, 'posts': page, 'form': form})
+
+def edit_post(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+    else:
+        form = PostForm(instance=post)
+
+    return render(request, 'edit_post.html', {'form': form})
+
+def delete_post(request, post_id):
+    post = get_object_or_404(Post, post_id=post_id)
+    post.content = None 
+    post.save()
+    return redirect('topics', topic_id=post.topic_id.topic_id)

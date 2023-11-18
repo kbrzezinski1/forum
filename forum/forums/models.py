@@ -19,7 +19,7 @@ class Topic(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=255)
-    content = models.CharField(max_length=2000)
+    content = models.TextField(max_length=2000)
     category_id = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
@@ -32,7 +32,7 @@ class Post(models.Model):
     post_id = models.AutoField(primary_key=True)
     user_id = models.ForeignKey(MyUser, on_delete=models.SET_NULL, null=True)
     topic_id = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True)
-    content = models.CharField(max_length=1000)
+    content = models.TextField(max_length=1000, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

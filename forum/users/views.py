@@ -2,8 +2,10 @@ from django.contrib.auth import login, authenticate
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from users.forms import CustomUserCreationForm
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
-
+from forums.models import Post, Topic
 def register(request):
     if request.method == "GET":
         return render(
@@ -39,3 +41,23 @@ def login_user(request):
 
     else: 
         return render(request, "login.html", {})
+    
+def profile(request):
+    posts = Post.objects.filter(user_id=request.user)
+    topics = Topic.objects.filter(user_id=request.user)
+    return render(request, "profile.html", {"topics": topics, "posts" : posts})
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            return redirect('dashboard')
+        else:
+            for error in form.errors:
+                messages.error(request, form.errors[error])
+            return redirect('change_password')
+    
+    return render(request, "password_change_form.html", {'form' : PasswordChangeForm})
+

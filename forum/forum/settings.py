@@ -83,9 +83,15 @@ DATABASES = {
         'USER': config('DB_USER'),
         'PASSWORD': config('DB_PASSWORD'),
         'HOST': config('DB_HOST', default='localhost'),
-        'PORT': '',              # Leave empty for the default port (3306)
+        'PORT': '',
+        'OPTIONS': {
+            'charset': 'utf8mb4' 
+        },
     }
 }
+
+DEFAULT_CHARSET = 'utf-8'
+DEFAULT_COLLATION = 'utf8_general_ci'
 
 
 # Password validation

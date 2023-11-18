@@ -12,8 +12,24 @@
         {% for post in posts %}
         <li>
             <a class="block p-2 md:w-4/5 mx-auto rounded-lg border hover:bg-gray-100 hover:border-gray-200">
+                {% if post.content == None %}
+                    <p class="text-gray-300 break-words">Deleted</p>
+                    <p class="text-blue-600 flex justify-end">{{post.created_at}}</p>
+                {% else %}
                 <p class="text-gray-600 break-words">{{ post.content }}</p>
                 <p class="text-blue-600 flex justify-end">{{ post.user_id.username }} - {{post.created_at}}</p>
+                {% if request.user.username == post.user_id.username %}
+                <div class="flex space-x-4">
+                    <button type="submit" class="text-blue-300 hover:underline">Edit</button>
+                    <form method="post" action="{% url 'delete_post' post_id=post.post_id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="text-red-500 hover:underline">Delete</button>                    </form>
+                </div>
+
+                {% endif %}
+                {% endif %}
+
+
             </a>
         </li>
         {% endfor %}
