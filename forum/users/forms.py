@@ -1,6 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from .models import MyUser
-from django.forms import ModelForm, TextInput, CharField, ValidationError, Form
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm):

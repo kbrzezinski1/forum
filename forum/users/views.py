@@ -9,7 +9,7 @@ from forums.models import Post, Topic
 def register(request):
     if request.method == "GET":
         return render(
-            request, "register.html", {"form": CustomUserCreationForm}
+            request, "users/register.html", {"form": CustomUserCreationForm}
         )
     elif request.method == "POST":
         form = CustomUserCreationForm(request.POST)
@@ -24,7 +24,7 @@ def register(request):
             for error in form.errors:
                 messages.error(request, form.errors[error])
             return render(
-                request, "register.html", {"form": CustomUserCreationForm}
+                request, "users/register.html", {"form": CustomUserCreationForm}
             )
         
 def login_user(request):
@@ -40,12 +40,12 @@ def login_user(request):
             return redirect('login')
 
     else: 
-        return render(request, "login.html", {})
+        return render(request, "users/login.html", {})
     
 def profile(request):
     posts = Post.objects.filter(user_id=request.user)
     topics = Topic.objects.filter(user_id=request.user)
-    return render(request, "profile.html", {"topics": topics, "posts" : posts})
+    return render(request, "users/profile.html", {"topics": topics, "posts" : posts})
 
 def change_password(request):
     if request.method == 'POST':
@@ -59,5 +59,5 @@ def change_password(request):
                 messages.error(request, form.errors[error])
             return redirect('change_password')
     
-    return render(request, "password_change_form.html", {'form' : PasswordChangeForm})
+    return render(request, "users/password_change_form.html", {'form' : PasswordChangeForm})
 

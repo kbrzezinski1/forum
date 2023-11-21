@@ -14,7 +14,7 @@ def dashboard(request):
     categories = Category.objects.all()
     topics = Topic.objects.all()
     
-    return render(request, 'dashboard.html', {'categories': categories, 'topics': topics})
+    return render(request, 'forums/dashboard.html', {'categories': categories, 'topics': topics})
 
 def category_topics(request, category_id):
     
@@ -35,7 +35,7 @@ def category_topics(request, category_id):
     else:
         form = TopicForm()    
            
-    return render(request, 'category_topics.html', {'category': category, 'topics': page, 'form': form})
+    return render(request, 'forums/category_topics.html', {'category': category, 'topics': page, 'form': form})
 
 def topics(request, topic_id):
     
@@ -59,7 +59,7 @@ def topics(request, topic_id):
     else:
         form = PostForm()   
 
-    return render(request, 'topics.html', {'topic': topic, 'posts': page, 'form': form})
+    return render(request, 'forums/topics.html', {'topic': topic, 'posts': page, 'form': form})
 
 def edit_post(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
@@ -76,4 +76,4 @@ def delete_post(request, post_id):
     post = get_object_or_404(Post, post_id=post_id)
     post.content = None 
     post.save()
-    return redirect('topics', topic_id=post.topic_id.topic_id)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'), '/')
