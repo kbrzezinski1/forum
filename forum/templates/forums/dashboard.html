@@ -5,7 +5,7 @@
 <ul class="space-y-2">
     {% for category in categories %}
     <li>
-        <a href="{% url 'category_topics' category_id=category.category_id %}"
+        <a href="{% url 'category_topics' category.category_id %}"
         class="block p-2 md:w-4/5 mx-auto rounded-lg border hover:bg-gray-100 hover:border-gray-200">
         <div class="bg-white p-4 rounded-lg shadow-md">
                 <div class="text-xl font-semibold">{{ category.category_name }}</div>

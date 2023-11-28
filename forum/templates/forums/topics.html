@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
 <div class="mt-4">
     <ul class="space-y-1">
         <a class="block p-2 md:w-4/5 mx-auto rounded-lg border hover:bg-gray-100 hover:border-gray-200">
@@ -21,6 +20,7 @@
                 {% if request.user.username == post.user_id.username %}
                 <div class="flex space-x-4">
                     <button type="submit" class="text-blue-300 hover:underline">Edit</button>
+
                     <form method="post" action="{% url 'delete_post' post_id=post.post_id %}">
                         {% csrf_token %}
                         <button type="submit" class="text-red-500 hover:underline">Delete</button>                    </form>
@@ -61,7 +61,7 @@
 
 {% if request.user.is_authenticated %}
 <div class="flex flex-col">
-    <form method="post" action="{% url 'topics' topic_id=topic.topic_id %}"
+    <form method="post" action="{% url 'topics' topic.topic_id topic.title|slugify %}"
         class="block p-2 md:w-4/5 mx-auto rounded-lg border hover:bg-gray-100 hover:border-gray-200">
         {% csrf_token %}
         {{ form.as_p }}
@@ -74,4 +74,6 @@
     </form>
 </div>
 {% endif %}
+
+
 {% endblock %}

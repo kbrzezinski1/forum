@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<title>{{ category.category_name }} yopics</title>
+<title>{{ category.category_name }} topics</title>
 <h1 class="text-3xl font-semibold mb-4 flex justify-center">{{ category.category_name }} topics</h1>
 <div class="mt-4">
     <ul class="space-y-1">
         {% for topic in topics %}
         <li>
-            <a href="{% url 'topics' topic_id=topic.topic_id %}"
-                class="bg-white block p-2 md:w-4/5 mx-auto rounded-lg border hover:bg-gray-100 hover:border-gray-200">
+            <a href="{% url 'topics' topic.topic_id topic.title|slugify %}"
+                                class="bg-white block p-2 md:w-4/5 mx-auto rounded-lg border hover:bg-gray-100 hover:border-gray-200">
                 <div class=" text-xl font-semibold">{{ topic.title }}</div>
                 <p class="text-gray-600 break-words">{{ topic.content }}</p>
                 <p class="text-gray-600">{{ topic.post_count }}</p>

@@ -37,7 +37,7 @@ def category_topics(request, category_id):
            
     return render(request, 'forums/category_topics.html', {'category': category, 'topics': page, 'form': form})
 
-def topics(request, topic_id):
+def topics(request, topic_id, post_title=None):
     
     topic = Topic.objects.get(topic_id=topic_id)
     posts = Post.objects.filter(topic_id=topic).order_by('created_at')
@@ -53,7 +53,7 @@ def topics(request, topic_id):
             post.topic_id = topic
             post.save()
             last_page = paginator.num_pages
-            last_page_url = reverse('topics', args=[topic_id])
+            last_page_url = reverse('topics', args=[topic_id, post_title])
             last_page_url += f'?page={last_page}'
             return HttpResponseRedirect(last_page_url)
     else:

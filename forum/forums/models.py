@@ -18,7 +18,7 @@ class Topic(models.Model):
     user_id = models.ForeignKey(MyUser, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=100)
     content = models.TextField(max_length=2000)
     category_id = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
 
